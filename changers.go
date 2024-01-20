@@ -15,15 +15,15 @@ func Dedupe[V comparable](a ...V) (r []V) {
 	return
 }
 
-// applies each element to the specified resolver function,
-// and returns an array of resolved elements, in the desired type
+// applies the specified change function to each element,
+// and returns an array of changed elements
 //
 // Example
-// sleet := Modify[water,ice](freeze,[]water{drop01,drop02,drop03}...)
-func Modify[V,R any](resolve typr.Resolver[V,R],a ...V) (r []R) {
-	if resolve != nil {
+// sleet := ChangeTo[water,ice](freeze,[]water{drop01,drop02,drop03}...)
+func ChangeTo[V, R any](change typr.Resolver[V, R], a ...V) (r []R) {
+	if change != nil {
 		for _, e := range a {
-			ne := resolve(e)
+			ne := change(e)
 			r = append(r, ne)
 		}
 	}
