@@ -108,7 +108,7 @@ func TestFirstOrZero2(t *testing.T) {
 		return e%2 == 0
 	}
 
-	test1 := FirstOrZero(pickEvensOnly, []int{1, 3, 5, 7, 9, 11, 12, 13} ...)
+	test1 := FirstOrZero(pickEvensOnly, []int{1, 3, 5, 7, 9, 11, 12, 13}...)
 	assrtEqual(t, 12, test1)
 
 	test2 := FirstOrZero(pickEvensOnly, 1, 3, 5, 7, 9, 11, 13)
@@ -134,7 +134,7 @@ func TestLast2(t *testing.T) {
 		return e%2 == 0
 	}
 
-	test1, ok1 := Last(pickEvensOnly, []int{ 1, 3, 5, 7, 9, 11, 12, 13, 15, 16, 17}...)
+	test1, ok1 := Last(pickEvensOnly, []int{1, 3, 5, 7, 9, 11, 12, 13, 15, 16, 17}...)
 	assrtEqual(t, 16, test1)
 	assrtTrue(t, ok1)
 
@@ -164,7 +164,7 @@ func TestLastOr2(t *testing.T) {
 
 	defaultValue := -1
 
-	test1 := LastOr(pickEvensOnly, defaultValue, []int{ 1, 3, 5, 7, 9, 11, 12, 13, 15, 16, 17}...)
+	test1 := LastOr(pickEvensOnly, defaultValue, []int{1, 3, 5, 7, 9, 11, 12, 13, 15, 16, 17}...)
 	assrtEqual(t, 16, test1)
 
 	test2 := LastOr(pickEvensOnly, defaultValue, 1, 3, 5, 7, 9, 11, 13, 15, 17)
@@ -188,7 +188,7 @@ func TestLastOrZero2(t *testing.T) {
 		return e%2 == 0
 	}
 
-	test1 := LastOrZero(pickEvensOnly, []int {1, 3, 5, 7, 9, 11, 12, 13, 15, 16, 17} ...)
+	test1 := LastOrZero(pickEvensOnly, []int{1, 3, 5, 7, 9, 11, 12, 13, 15, 16, 17}...)
 	assrtEqual(t, 16, test1)
 
 	test2 := LastOrZero(pickEvensOnly, 1, 3, 5, 7, 9, 11, 13, 15, 17)
@@ -217,7 +217,7 @@ func TestNth(t *testing.T) {
 
 func TestNth2(t *testing.T) {
 
-	test1, err1 := Nth(2, []string{ "a", "b", "c", "d"}...)
+	test1, err1 := Nth(2, []string{"a", "b", "c", "d"}...)
 	assrtEqual(t, "c", test1)
 	assrtNil(t, err1)
 
@@ -241,7 +241,7 @@ func TestNthOr2(t *testing.T) {
 
 	defaultValue := "foo"
 
-	test1 := NthOr(1, defaultValue, []string{ "a", "b", "c", "d"}...)
+	test1 := NthOr(1, defaultValue, []string{"a", "b", "c", "d"}...)
 	assrtEqual(t, "b", test1)
 
 	test2 := NthOr(20, defaultValue, "a", "b", "c", "d")
@@ -259,7 +259,7 @@ func TestNthOrZero(t *testing.T) {
 
 func TestNthOrZero2(t *testing.T) {
 
-	test1 := NthOrZero(0, []string{"a", "b", "c", "d"} ...)
+	test1 := NthOrZero(0, []string{"a", "b", "c", "d"}...)
 	assrtEqual(t, "a", test1)
 
 	test2 := NthOrZero(-2, "a", "b", "c", "d")
@@ -285,6 +285,18 @@ func TestRepeated2(t *testing.T) {
 
 	test2 := Repeated(1, 2, 3, 4, 5)
 	assrtEqual(t, 0, len(test2))
+}
+
+func TestUnique(t *testing.T) {
+	test1 := Unique(1, 2, 2, 2, 2, 2, 2, 3)
+
+	assrtEqual(t, []int{1, 2, 3}, test1)
+}
+
+func TestUnique2(t *testing.T) {
+	test1 := Unique([]int{1, 2, 2, 2, 2, 2, 2, 3}...)
+
+	assrtEqual(t, []int{1, 2, 3}, test1)
 }
 
 func TestUnrepeated(t *testing.T) {
@@ -324,7 +336,7 @@ func TestValid2(t *testing.T) {
 		}
 		return
 	}
-	test := Valid(checkValid,[]string{"The", "Quick", "Brown", "Fox", "Jumped", "Over", "The", "Lazy", "Dog"}...)
+	test := Valid(checkValid, []string{"The", "Quick", "Brown", "Fox", "Jumped", "Over", "The", "Lazy", "Dog"}...)
 
 	assrtEqual(t, []string{"The", "Fox", "Jumped", "The", "Dog"}, test)
 }

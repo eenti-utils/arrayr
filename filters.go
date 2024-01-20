@@ -167,15 +167,26 @@ func NthOrZero[V any](i int, a ...V) (r V) {
 //  - if no elements appeared more than once, then the resulting array has a length of zero
 //  - the resulting array, if not empty, will have unique elements
 func Repeated[V comparable](a ...V) (r []V) {
+	m := make(map[V]bool)
+	for _, el := range a {
+		if _, ex := m[el]; ! ex {
+			m[el]=true
+			r = append(r, el)
+		}
+	}
+	return
+}
+
+// returns an array comprised of the elements specified, where each element appears exactly once,
+// in the resulting array
+func Unique[V comparable](a ...V) (r []V) {
 	m := make(map[V]int)
 	for _, el := range a {
 		if c, ex := m[el]; ex {
-			if c == 0 {
-				r = append(r, el)
-			}
 			m[el] = c + 1
 		} else {
 			m[el] = 0
+			r = append(r, el)
 		}
 	}
 	return
