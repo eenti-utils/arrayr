@@ -29,3 +29,20 @@ func ChangeTo[V, R any](change typr.Resolver[V, R], a ...V) (r []R) {
 	}
 	return
 }
+
+// returns an array of the specified elements in reverse order
+func Reverse[V any](a ...V) (r []V) {
+	if l := len(a); l > 1 {
+		if l == 2 {
+			r = []V{a[1],a[0]}
+			return
+		}
+		li := l -1
+		for i := li; i > -1; i-- {
+			r = append(r, a[i])
+		}
+	} else {
+		r = a
+	}
+	return
+}
