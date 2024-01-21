@@ -1,8 +1,6 @@
 package arrayr
 
 import (
-	"fmt"
-
 	"github.com/eenti-utils/typr"
 )
 
@@ -16,40 +14,21 @@ func Filter[V any](ok typr.Qualifier[V], a ...V) (r []V) {
 		return
 	}
 
-	for _, e := range a {
-		if ok(e) {
-			r = append(r, e)
-		}
-	}
-	return
+	return doFilter(ok, a...)
 }
 
 // returns the first element, where the specified Qualifier function returns bool true, and
 //  - bool true, if an element was qualified
 //  - bool false, otherwise
 func First[V any](ok typr.Qualifier[V], a ...V) (r V, f bool) {
-	if ok == nil {
-		if c := len(a); c > 0 {
-			r = a[0]
-			f = true
-		}
-		return
-	}
-	for _, e := range a {
-		if ok(e) {
-			r = e
-			f = true
-			return
-		}
-	}
-	return
+	return doFirst(ok, a...)
 }
 
 // returns the first element, where the specified Qualifier function returns bool true, or
 // the specified default value, if no element was qualified
 func FirstOr[V any](ok typr.Qualifier[V], defaultVal V, a ...V) (r V) {
 	r = defaultVal
-	if fv, exists := First(ok, a...); exists {
+	if fv, exists := doFirst(ok, a...); exists {
 		r = fv
 	}
 	return
@@ -58,7 +37,7 @@ func FirstOr[V any](ok typr.Qualifier[V], defaultVal V, a ...V) (r V) {
 // returns the first element, where the specified Qualifier function returns bool true, or
 // the zero value of the given type, if no element was qualified
 func FirstOrZero[V any](ok typr.Qualifier[V], a ...V) (r V) {
-	if fv, exists := First(ok, a...); exists {
+	if fv, exists := doFirst(ok, a...); exists {
 		r = fv
 	}
 	return
@@ -68,31 +47,19 @@ func FirstOrZero[V any](ok typr.Qualifier[V], a ...V) (r V) {
 //  - bool true, if an element was qualified
 //  - bool false, otherwise
 func Last[V any](ok typr.Qualifier[V], a ...V) (r V, f bool) {
-	l := len(a)
-	if l == 0 {
-		return
-	}
-	li := l - 1
-	if ok == nil {
-		r = a[li]
-		f = true
-		return
-	}
-	for i := li; i > -1; i-- {
-		if e := a[i]; ok(e) {
-			r = e
-			f = true
-			return
-		}
-	}
-	return
+	return doLast(ok, a...)
 }
 
 // returns the last element, where the specified Qualifier function returns bool true, or
 // the specified default value, if no element was qualified
 func LastOr[V any](ok typr.Qualifier[V], defaultVal V, a ...V) (r V) {
 	r = defaultVal
-	if fv, exists := Last(ok, a...); exists {
+
+	if len(a) == 0 {
+		return
+	}
+
+	if fv, exists := doLast(ok, a...); exists {
 		r = fv
 	}
 	return
@@ -101,7 +68,11 @@ func LastOr[V any](ok typr.Qualifier[V], defaultVal V, a ...V) (r V) {
 // returns the last element, where the specified Qualifier function returns bool true, or
 // the zero value of the given type, if no element was qualified
 func LastOrZero[V any](ok typr.Qualifier[V], a ...V) (r V) {
-	if fv, exists := Last(ok, a...); exists {
+	if len(a) == 0 {
+		return
+	}
+
+	if fv, exists := doLast(ok, a...); exists {
 		r = fv
 	}
 	return
@@ -115,15 +86,7 @@ func LastOrZero[V any](ok typr.Qualifier[V], a ...V) (r V) {
 //  - negative 2 (-1) references the next to last element
 // and so forth
 func Nth[V any](i int, a ...V) (r V, e error) {
-	l := len(a)
-	if i > -1 && i < l {
-		r = a[i]
-	} else if i < 0 && l+i > -1 {
-		r = a[l+i]
-	} else {
-		e = fmt.Errorf("index out of range [ %d ]", i)
-	}
-	return
+	return doNth(i, a...)
 }
 
 // returns the element at the specified index, if the index is valid, or
@@ -139,7 +102,7 @@ func Nth[V any](i int, a ...V) (r V, e error) {
 // and so forth
 func NthOr[V any](i int, defaultVal V, a ...V) (r V) {
 	r = defaultVal
-	if nth, err := Nth(i, a...); err == nil {
+	if nth, err := doNth(i, a...); err == nil {
 		r = nth
 	}
 	return
@@ -157,7 +120,7 @@ func NthOr[V any](i int, defaultVal V, a ...V) (r V) {
 //  - negative 2 (-2) references the next to last element
 // and so forth
 func NthOrZero[V any](i int, a ...V) (r V) {
-	if nth, err := Nth(i, a...); err == nil {
+	if nth, err := doNth(i, a...); err == nil {
 		r = nth
 	}
 	return

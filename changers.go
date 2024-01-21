@@ -9,10 +9,7 @@ import "github.com/eenti-utils/typr"
 // sleet := ChangeTo[water,ice](freeze,[]water{drop01,drop02,drop03}...)
 func ChangeTo[V, R any](change typr.Resolver[V, R], a ...V) (r []R) {
 	if change != nil {
-		for _, e := range a {
-			ne := change(e)
-			r = append(r, ne)
-		}
+		r = convert(change, a...)
 	}
 	return
 }
@@ -21,10 +18,10 @@ func ChangeTo[V, R any](change typr.Resolver[V, R], a ...V) (r []R) {
 func Reverse[V any](a ...V) (r []V) {
 	if l := len(a); l > 1 {
 		if l == 2 {
-			r = []V{a[1],a[0]}
+			r = []V{a[1], a[0]}
 			return
 		}
-		li := l -1
+		li := l - 1
 		for i := li; i > -1; i-- {
 			r = append(r, a[i])
 		}

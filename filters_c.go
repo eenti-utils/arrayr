@@ -10,7 +10,7 @@ func Repeated[V comparable](a ...V) (r []V) {
 		return
 	}
 	qualify := func(e typr.Pair[V, int]) bool { return e.Y > 1 }
-	r = ChangeTo(convertFreqToX[V], Filter(qualify, Frequency(a...)...)...)
+	r = convert(pairX[V], doFilter(qualify, doFrequency(a...)...)...)
 	return
 }
 
@@ -20,7 +20,7 @@ func Unique[V comparable](a ...V) (r []V) {
 	if len(a) == 0 {
 		return
 	}
-	r = ChangeTo(convertFreqToX[V], Frequency(a...)...)
+	r = convert(pairX[V], doFrequency(a...)...)
 	return
 }
 
@@ -32,6 +32,6 @@ func Unrepeated[V comparable](a ...V) (r []V) {
 		return
 	}
 	qualify := func(e typr.Pair[V, int]) bool { return e.Y == 1 }
-	r = ChangeTo(convertFreqToX[V], Filter(qualify, Frequency(a...)...)...)
+	r = convert(pairX[V], doFilter(qualify, doFrequency(a...)...)...)
 	return
 }

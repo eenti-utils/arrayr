@@ -10,7 +10,7 @@ import "github.com/eenti-utils/typr"
 func RepeatedR[V any](a ...V) (r []V) {
 	if len(a) > 0 {
 		qualify := func(p typr.Pair[V, int]) (r bool) { return p.Y > 1 }
-		r = ChangeTo(convertFreqToX[V], Filter(qualify, FrequencyR(a...)...)...)
+		r = convert(pairX[V], doFilter(qualify, doFrequencyR(a...)...)...)
 	}
 	return
 }
@@ -21,7 +21,7 @@ func RepeatedR[V any](a ...V) (r []V) {
 // in the resulting array
 func UniqueR[V any](a ...V) (r []V) {
 	if len(a) > 0 {
-		r = ChangeTo(convertFreqToX[V], FrequencyR(a...)...)
+		r = convert(pairX[V], doFrequencyR(a...)...)
 	}
 	return
 }
@@ -34,7 +34,7 @@ func UniqueR[V any](a ...V) (r []V) {
 func UnrepeatedR[V any](a ...V) (r []V) {
 	if len(a) > 0 {
 		qualify := func(p typr.Pair[V, int]) (r bool) { return p.Y == 1 }
-		r = ChangeTo(convertFreqToX[V], Filter(qualify, FrequencyR(a...)...)...)
+		r = convert(pairX[V], doFilter(qualify, doFrequencyR(a...)...)...)
 	}
 	return
 }
