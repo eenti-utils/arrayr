@@ -6,7 +6,7 @@ import (
 	"github.com/eenti-utils/typr"
 )
 
-func TestOccurred(t *testing.T) {
+func TestFrequency(t *testing.T) {
 	test := Frequency("a", "b", "c", "a")
 
 	assrtNotNil(t, test)
@@ -32,7 +32,7 @@ func TestOccurred(t *testing.T) {
 
 }
 
-func TestOccurred2(t *testing.T) {
+func TestFrequency2(t *testing.T) {
 	test := Frequency([]string{"a", "b", "c", "a"}...)
 
 	assrtNotNil(t, test)
@@ -58,13 +58,13 @@ func TestOccurred2(t *testing.T) {
 
 }
 
-func TestOccurred_Empty(t *testing.T) {
+func TestFrequency_Empty(t *testing.T) {
 	test := Frequency[int]()
 	assrtEqual(t, 0, len(test))
 	assrtNotNil(t, test)
 }
 
-func TestOccurred_Empty2(t *testing.T) {
+func TestFrequency_Empty2(t *testing.T) {
 	test := Frequency([]int{}...)
 	assrtEqual(t, 0, len(test))
 	assrtNotNil(t, test)
