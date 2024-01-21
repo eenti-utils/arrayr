@@ -21,9 +21,7 @@ func FrequencyR[V any](a ...V) (r []typr.Pair[V, int]) {
 		}
 	}
 	if len(f) > 0 {
-		cast := func(v *typr.Pair[V, int]) (r typr.Pair[V, int]) {
-			return typr.Pair[V, int]{X: v.X, Y: v.Y}
-		}
+		cast := func(v *typr.Pair[V, int]) (r typr.Pair[V, int]) { return v.Value() }
 		r = ChangeTo[*typr.Pair[V, int], typr.Pair[V, int]](cast, f...)
 	}
 	return
