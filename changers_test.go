@@ -2,26 +2,6 @@ package arrayr
 
 import "testing"
 
-func TestDedupe(t *testing.T) {
-	test1 := Dedupe(1, 2, 3, 3, 4, 5)
-
-	assrtEqual(t, []int{1, 2, 3, 4, 5}, test1)
-
-	test2 := Dedupe(1, 2, 3, 4, 5)
-	assrtEqual(t, 5, len(test2))
-
-}
-
-func TestDedupe2(t *testing.T) {
-	test1 := Dedupe([]int{1, 2, 3, 3, 4, 5}...)
-
-	assrtEqual(t, []int{1, 2, 3, 4, 5}, test1)
-
-	test2 := Dedupe(1, 2, 3, 4, 5)
-	assrtEqual(t, 5, len(test2))
-
-}
-
 func TestChangeTo(t *testing.T) {
 	intToFloat := func(i int) (r float64) {
 		r = float64(i)

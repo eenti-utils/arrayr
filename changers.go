@@ -2,19 +2,6 @@ package arrayr
 
 import "github.com/eenti-utils/typr"
 
-// returns an array with unique elements,
-// based on the elements specified
-func Dedupe[V comparable](a ...V) (r []V) {
-	m := make(map[V]bool)
-	for _, el := range a {
-		if _, ex := m[el]; !ex {
-			r = append(r, el)
-			m[el] = true
-		}
-	}
-	return
-}
-
 // applies the specified change function to each element,
 // and returns an array of changed elements
 //
